@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کشاورزان</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- این دیو کانتینر برای تقسیم صفحه ضروری است -->
+    <div class="container">
+
+        <!-- سایدبار -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-leaf" style="color:#4ade80;"></i> پنل مدیریت
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> داشبورد</a></li>
+                <li><a href="farmers.html" class="active"><i class="fa-solid fa-users"></i> کشاورزان</a></li>
+                <li><a href="#"><i class="fa-solid fa-file-contract"></i> قراردادها</a></li>
+                <li><a href="#"><i class="fa-solid fa-tractor"></i> ماشین‌آلات</a></li>
+                <li><a href="#"><i class="fa-solid fa-warehouse"></i> انبار</a></li>
+                <li><a href="#"><i class="fa-solid fa-sack-dollar"></i> مالی</a></li>
+                <li><a href="#"><i class="fa-solid fa-gear"></i> تنظیمات</a></li>
+            </ul>
+            <div class="logout-container">
+                <a href="#" id="logoutBtn" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> خروج
+                </a>
+            </div>
+        </aside>
+
+        <!-- محتوای اصلی -->
+        <main class="main-content">
+            <header>
+               <!-- ۱. تغییر در هدر (جایگزین هدر قبلی کنید) -->
+                <div class="header-title">
+                    <h2>مدیریت کشاورزان <span id="totalCountBadge"
+                                              style="font-size: 0.85em; background: #e0f2f1; color: #00695c; padding: 4px 12px; border-radius: 20px; margin-right: 10px; display: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05);"></span>
+                    </h2>
+                </div>
+
+                <!-- ... بقیه کدهای جدول ... -->
+
+                <!-- ۲. اضافه کردن این کد به انتهای فایل، قبل از بسته شدن body و اسکریپت‌ها -->
+                <div id="editModal" class="modal-overlay" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>ویرایش کشاورز</h3>
+                            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editForm" onsubmit="handleEditSubmit(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>نام و نام خانوادگی</label>
+                                        <input type="text" id="e_fullName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>کد ملی (غیرقابل تغییر)</label>
+                                        <input type="text" id="e_nationalId" disabled
+                                               style="background-color: #eee; cursor: not-allowed;">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>شماره موبایل</label>
+                                        <input type="text" id="e_mobile" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>نام پدر</label>
+                                        <input type="text" id="e_fatherName">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label>آدرس</label>
+                                        <input type="text" id="e_address">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label>شماره شبا</label>
+                                        <input type="text" id="e_sheba">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-cancel" onclick="closeEditModal()">انصراف</button>
+                                    <button type="submit" class="btn-submit">ذخیره تغییرات</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-profile">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span id="userName">کاربر</span>
+                </div>
+            </header>
+
+            <div class="table-wrapper">
+                <!-- نوار ابزار (جستجو و دکمه) -->
+                <div class="toolbar">
+                    <div class="search-box">
+                        <!-- آیدی ورودی searchInput و آیدی دکمه searchBtn است -->
+                        <input type="text" id="searchInput" placeholder="جستجو (نام، کد ملی، شماره تماس...)">
+                        <button id="searchBtn" class="btn-primary">جستجو</button>
+                    </div>
+                    <button class="btn-primary" onclick="openModal()">
+                        <i class="fa-solid fa-plus"></i> افزودن کشاورز
+                    </button>
+                </div>
+
+                <!-- جدول -->
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>نام و نام خانوادگی</th>
+                                <th>کد ملی</th>
+                                <th>نام پدر</th>
+                                <th>شماره موبایل</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="farmersTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align:center;">در حال دریافت اطلاعات...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- صفحه‌بندی -->
+                <div class="pagination-container" id="pagination"></div>
+            </div>
+        </main>
+    </div>
+        <!-- مدال (پاپ‌آپ) افزودن کشاورز -->
+    <div id="addFarmerModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-plus"></i> افزودن کشاورز جدید</h3>
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="addFarmerForm">
+                                <div class="form-grid">
+                    <div class="form-group">
+                        <label>نام</label>
+                        <input type="text" id="f_firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>نام خانوادگی</label>
+                        <input type="text" id="f_lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>کد ملی</label>
+                        <input type="text" id="f_nationalId" maxlength="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label>نام پدر</label>
+                        <input type="text" id="f_fatherName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>شماره موبایل</label>
+                        <input type="text" id="f_mobile" placeholder="09..." maxlength="11" required>
+                    </div>
+                    <div class="form-group">
+                        <label>شماره شبا (بدون IR)</label>
+                        <input type="text" id="f_sheba" placeholder="مثلاً 1401500..." required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>آدرس</label>
+                        <input type="text" id="f_address" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">انصراف</button>
+                    <button type="submit" class="btn-submit">ثبت اطلاعات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal ویرایش کشاورز -->
+    <div id="editModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>ویرایش اطلاعات کشاورز</h3>
+                <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" onsubmit="handleEditSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>نام و نام خانوادگی</label>
+                            <input type="text" id="e_fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>کد ملی (غیرقابل تغییر)</label>
+                            <input type="text" id="e_nationalId" disabled style="background-color: #f0f0f0;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>شماره موبایل</label>
+                            <input type="text" id="e_mobile" required>
+                        </div>
+                        <div class="form-group">
+                            <label>نام پدر</label>
+                            <input type="text" id="e_fatherName">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>آدرس</label>
+                            <input type="text" id="e_address">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>شماره شبا</label>
+                            <input type="text" id="e_sheba">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" onclick="closeEditModal()">انصراف</button>
+                        <button type="submit" class="btn-submit">ذخیره تغییرات</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/farmers.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد کشاورزی</title>
+    <!-- لینک به فایل استایل -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- آیکون‌های FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- سایدبار سمت راست -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-leaf" style="color:#4ade80;"></i> پنل مدیریت
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="active"><i class="fa-solid fa-chart-pie"></i> داشبورد</a></li>
+            <li><a href="#"><i class="fa-solid fa-users"></i> پیمانکاران</a></li>
+            <li><a href="farmers.html"><i class="fa-solid fa-tractor"></i> کشاورزان</a></li>
+            <li><a href="#"><i class="fa-solid fa-file-invoice"></i> گزارشات</a></li>
+        </ul>
+        <div class="logout-container">
+            <a href="#" id="logoutBtn" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> خروج
+            </a>
+        </div>
+    </aside>
+
+    <!-- محتوای اصلی -->
+    <main class="main-content">
+
+        <!-- هدر -->
+        <header>
+            <div class="header-title">
+                <h2>سال زراعی فعال: ۱۴۰۴</h2>
+            </div>
+            <div class="user-profile">
+                <i class="fa-solid fa-circle-user"></i>
+                <span id="userName">در حال بارگذاری...</span>
+            </div>
+        </header>
+
+        <!-- بخش کارت‌ها (Grid) -->
+        <div class="dashboard-grid">
+
+            <!-- کارت ۱: مانده حساب پیمانکار -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">مانده فعلی حساب پیمانکار</span>
+                    <div class="card-icon blue"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+                <div class="card-value" id="contractorBalance">...</div>
+            </div>
+
+            <!-- کارت ۲: تعداد قرارداد -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">تعداد قرارداد کشاورزان</span>
+                    <div class="card-icon purple"><i class="fa-solid fa-file-signature"></i></div>
+                </div>
+                <div class="card-value" id="farmersCount">...</div>
+            </div>
+
+            <!-- کارت ۳: تناژ تحویلی -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">کل تناژ تحویلی</span>
+                    <div class="card-icon green"><i class="fa-solid fa-weight-hanging"></i></div>
+                </div>
+                <div class="card-value" id="totalTonnage">...</div>
+            </div>
+
+            <!-- کارت ۴: بدهی به کشاورزان -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">جمع بدهی به کشاورزان</span>
+                    <div class="card-icon red"><i class="fa-solid fa-arrow-down"></i></div>
+                </div>
+                <div class="card-value" id="totalDebtToFarmers">...</div>
+            </div>
+
+            <!-- کارت ۵: طلب از کشاورزان -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">جمع طلب از کشاورزان</span>
+                    <div class="card-icon green"><i class="fa-solid fa-arrow-up"></i></div>
+                </div>
+                <div class="card-value" id="totalReceivableFromFarmers">...</div>
+            </div>
+
+            <!-- کارت ۶: مانده تا تسویه -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">مانده تا تسویه کشاورزان</span>
+                    <div class="card-icon orange"><i class="fa-solid fa-scale-balanced"></i></div>
+                </div>
+                <div class="card-value" id="remainingSettlement">...</div>
+            </div>
+
+            <!-- کارت ۷: کارمزد پیمانکار -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">کارمزد پیمانکار</span>
+                    <div class="card-icon blue"><i class="fa-solid fa-percent"></i></div>
+                </div>
+                <div class="card-value" id="contractorFee">...</div>
+            </div>
+
+            <!-- کارت ۸: سود بذر -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">سود پیمانکار از بذر</span>
+                    <div class="card-icon green"><i class="fa-solid fa-seedling"></i></div>
+                </div>
+                <div class="card-value" id="seedProfit">...</div>
+            </div>
+
+            <!-- کارت ۹: سود سم -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">سود پیمانکار از سم</span>
+                    <div class="card-icon red"><i class="fa-solid fa-flask"></i></div>
+                </div>
+                <div class="card-value" id="pesticideProfit">...</div>
+            </div>
+
+            <!-- کارت ۱۰: وضعیت کلی -->
+            <div class="stat-card">
+                <div class="card-header">
+                    <span class="card-title">وضعیت کلی (تراز)</span>
+                    <div class="card-icon purple"><i class="fa-solid fa-coins"></i></div>
+                </div>
+                <div class="card-value" id="overallStatus">...</div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- اسکریپت اصلی -->
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
