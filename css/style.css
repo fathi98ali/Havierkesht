@@ -794,26 +794,77 @@ tr:hover { background-color: #f9fafb; }
 }
 .btn-edit:hover { transform: scale(1.2); }
 
-html, body {
-    height: 100%;
+/* استایل فوتر داشبورد */
+.main-footer {
+    margin-top: 40px; /* فاصله از کارت‌های بالا */
+    background-color: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    padding: 20px 30px;
+    border-radius: 15px 15px 0 0; /* گرد کردن گوشه‌های بالا */
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #64748b; /* رنگ خاکستری ملایم */
+}
+
+.footer-right p {
     margin: 0;
+    font-weight: 500;
 }
 
-body {
+.footer-left {
     display: flex;
+    align-items: center;
+    gap: 20px;
 }
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 
+.dev-link {
+    color: #4ade80; /* رنگ سبز مشابه آیکون‌های داشبورد */
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin: 0 5px;
 }
-footer {
-    margin-top: auto;
-    text-align: center;
-    padding: 10px 0;
-    background-color: #f9fafb;
-    color: #555;
-    font-size: 14px;
+
+.dev-link:hover {
+    color: #16a34a;
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+}
+
+.developer-text i {
+    font-size: 0.8em;
+    color: #94a3b8;
+    margin-right: 5px;
+}
+
+.version-badge {
+    background-color: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 1px solid #e2e8f0;
+}
+
+/* ریسپانسیو برای موبایل */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .footer-left {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
