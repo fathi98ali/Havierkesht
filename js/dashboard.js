@@ -210,14 +210,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // ----------------------
     // ۵. دکمه خروج
     // ----------------------
+        // ----------------------
+    // ۵. دکمه خروج (پیشرفته)
+    // ----------------------
     const logoutBtn = document.getElementById('logoutBtn');
-    if(logoutBtn) {
-        logoutBtn.onclick = (e) => {
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
             e.preventDefault();
-            localStorage.removeItem('access_token');
-            window.location.href = 'index.html';
-        };
+
+            // ۱. تایید از کاربر
+            if (!confirm('آیا مطمئن هستید که می‌خواهید از حساب کاربری خارج شوید؟')) {
+                return;
+            }
+
+            // تغییر متن دکمه برای اطلاع کاربر (اختیاری)
+            const originalText = logoutBtn.innerHTML;
+            logoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال خروج...';
+
+            try {
+                const accessToken = localStorage.getItem('access_token');
+
+                // اگر توکن داریم، به سرور درخواست خروج می‌دهیم
+                if (accessToken) {
+                    const url = new URL(`${API_BASE_URL}/logout`);
+                    url.searchParams.append('access_token', accessToken);
+                    // اگر رفرش توکن هم دارید، اینجا اضافه کنید:
+                    // url.searchParams.append('refresh_token', localStorage.getItem('refresh_token'));
+
+                    await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'accept': 'application/json'
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Logout API Warning:', error);
+                // خطا در API مانع خروج کاربر نمی‌شود
+            } finally {
+                // ۲. پاکسازی کامل مرورگر
+                localStorage.clear();
+
+                // ۳. هدایت به صفحه ورود
+                window.location.href = 'index.html';
+            }
+        });
     }
+
 
     // شروع
     initDashboard();
